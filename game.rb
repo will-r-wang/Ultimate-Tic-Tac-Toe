@@ -1,26 +1,23 @@
+require 'yaml'
+
 module UltimateTicTacToe
   class Game
     class InvalidMoveError < StandardError; end
 
-    attr_reader :row_bound, :col_bound
     ROWS, COLS = 9, 9
-    WIN_COMBINATIONS = [
-      [0,1,2], # top_row
-      [3,4,5], # middle_row
-      [6,7,8], # bottom_row
-      [0,3,6], # left_column
-      [1,4,7], # center_column
-      [2,5,8], # right_column
-      [0,4,8], # left_diagonal
-      [6,4,2] # right_diagonal
-    ]
+    WIN_COMBINATIONS = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [6,4,2]]
 
-    def initialize(board:, meta:, turn:, row_bound: -1, col_bound: -1)
+    def initialize(board:, meta:, turn: 0, row_bound: -1, col_bound: -1)
       @board = board.split("").each_slice(9).to_a
-      @meta = meta.split("")
+      @meta = meta
+      @turn = turn
       @player = (turn % 2 == 0) ? 'X' : 'O'
       @row_bound = row_bound
       @col_bound = col_bound
+    end
+
+    def self.load(data)
+      Game.new(**YAML.load(data))
     end
 
     def board_complete?(board)
@@ -30,21 +27,20 @@ module UltimateTicTacToe
       false
     end
 
-    def print_board
-      @board.each {|row| puts row.join("")}
-    end
-
-    def string_board
-      @board.flatten.join("")
-    end
-
-    def string_meta
-      @meta.join("")
+    def serialize
+      {
+        board: @board.flatten.join(""),
+        meta: @meta,
+        turn: @turn,
+        row_bound: @row_bound,
+        col_bound: @col_bound
+      }.to_yaml
     end
 
     def make_move(row, col)
       raise InvalidMoveError unless valid_move?(row, col)
       @board[row][col] = @player
+      @turn += 1
       row_offset, col_offset = row % 3, col % 3
       row, col = row - (row % 3), col - (col % 3)
       if board_complete?(@board.map { |r| r[col...col+3] } [row...row+3].flatten.join(""))
