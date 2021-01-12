@@ -37,3 +37,4 @@ module UltimateTicTacToe
       game.make_move(Integer(row), Integer(col))
     end
   end
+end
