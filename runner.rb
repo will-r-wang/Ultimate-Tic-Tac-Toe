@@ -1,5 +1,5 @@
-require_relative 'octokit_client'
-require_relative 'game'
+require_relative './octokit_client'
+require_relative './game'
 
 module UltimateTicTacToe
   Class Runner
