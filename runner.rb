@@ -24,7 +24,6 @@ module UltimateTicTacToe
 
       acknowledge_issue
 
-      @game = Game.new
       game.make_move(Integer(row), Integer(col))
     end
 
@@ -32,6 +31,14 @@ module UltimateTicTacToe
       octokit.add_label(label: 'ultimate-tic-tac-toe')
       octokit.add_reaction(reaction: 'eyes')
       octokit.close_issue
+    end
+
+    def game
+      @game = Game.load(Base64.decode64(raw_game_data.content))
+    end
+
+    def raw_game_data
+      @raw_game_data ||= octokit.fetch_from_repo(GAME_DATA_PATH)
     end
 
     def octokit
