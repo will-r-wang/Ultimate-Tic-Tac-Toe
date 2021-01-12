@@ -36,5 +36,9 @@ module UltimateTicTacToe
     def handle_move(row:, col:)
       game.make_move(Integer(row), Integer(col))
     end
+
+    def octokit
+      @octokit ||= OctokitClient.new(github_token: @github_token, repository: @repository, issue_number: @issue_number)
+    end
   end
 end
