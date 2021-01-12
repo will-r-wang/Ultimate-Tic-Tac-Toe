@@ -24,6 +24,7 @@ module UltimateTicTacToe
 
       acknowledge_issue
 
+      @game = Game.new
       game.make_move(Integer(row), Integer(col))
     end
 
