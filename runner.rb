@@ -3,7 +3,7 @@ require_relative 'game'
 
 module UltimateTicTacToe
   class Runner
-    GAME_DATA_PATH = 'gamedata.yml'
+    GAME_DATA_PATH = 'game_data.yml'
 
     def initialize(
       github_token:,
