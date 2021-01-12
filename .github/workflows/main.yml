@@ -1,0 +1,38 @@
+name: "UltimateTicTacToe"
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  move:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.1
+          
+      - name: Setup Gems
+        run: |
+          gem install octokit -N --silent
+
+      - name: Play
+        env:
+          REPOSITORY: ${{ github.repository }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          EVENT_ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          ruby <<- EORUBY
+            require './runner'
+          
+            UltimateTicTacToe::Runner.new(
+              github_token: '${{ secrets.GITHUB_TOKEN }}',
+              issue_number: ENV.fetch('EVENT_ISSUE_NUMBER'),
+              issue_title: ENV.fetch('EVENT_ISSUE_TITLE'),
+              repository: ENV.fetch('REPOSITORY'),
+            ).run
+          EORUBY
