@@ -2,7 +2,7 @@ require_relative 'octokit_client'
 require_relative 'game'
 
 module UltimateTicTacToe
-  Class Runner
+  class Runner
     GAME_DATA_PATH = 'gamedata.yml'
 
     def initialize(

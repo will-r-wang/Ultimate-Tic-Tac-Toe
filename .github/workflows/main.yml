@@ -30,7 +30,7 @@ jobs:
         ruby <<- EORUBY
           require './runner'
 
-          Ultimate-Tic-Tac-Toe::Runner.new(
+          UltimateTicTacToe::Runner.new(
             github_token: '${{ secrets.GITHUB_TOKEN }}',
             issue_number: ENV.fetch('EVENT_ISSUE_NUMBER'),
             issue_title: ENV.fetch('EVENT_ISSUE_TITLE'),
