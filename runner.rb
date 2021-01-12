@@ -28,11 +28,12 @@ module UltimateTicTacToe
     end
 
     def acknowledge_issue
+      octokit.add_label(label: 'ultimate-tic-tac-toe')
       octokit.add_reaction(reaction: 'eyes')
       octokit.close_issue
     end
 
     def handle_move(row:, col:)
-      game.make_move(row, col)
+      game.make_move(Integer(row), Integer(col))
     end
 end
