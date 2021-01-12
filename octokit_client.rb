@@ -25,4 +25,8 @@ class OctokitClient
   def close_issue
     @octokit.close_issue(@repository, @issue_number)
   end
+
+  def fetch_from_repo(filepath)
+    @octokit.contents(@repository, path: filepath)
+  end
 end
