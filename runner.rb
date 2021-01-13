@@ -37,6 +37,7 @@ module UltimateTicTacToe
     end
 
     def write_game_state
+      puts @game.serialize
       File.write(GAME_DATA_PATH, @game.serialize)
     end
 
