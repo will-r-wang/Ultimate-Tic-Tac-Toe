@@ -24,7 +24,8 @@ module UltimateTicTacToe
 
       acknowledge_issue
 
-      game.make_move(Integer(row), Integer(col))
+      @game = Game.load(Base64.decode64(raw_game_data.content))
+      @game.make_move(Integer(row), Integer(col))
 
       write_game_state
     end
@@ -35,12 +36,8 @@ module UltimateTicTacToe
       octokit.close_issue
     end
 
-    def game
-      @game = Game.load(Base64.decode64(raw_game_data.content))
-    end
-
     def write_game_state
-      File.write(GAME_DATA_PATH, game.serialize)
+      File.write(GAME_DATA_PATH, @game.serialize)
     end
 
     def raw_game_data
