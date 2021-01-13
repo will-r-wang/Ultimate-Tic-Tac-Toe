@@ -18,6 +18,10 @@ class OctokitClient
     @octokit.add_labels_to_an_issue(@repository, @issue_number, [label])
   end
 
+  def add_comment(comment:)
+    @octokit.add_comment(@repository, @issue_number, comment)
+  end
+
   def add_reaction(reaction:)
     @octokit.create_issue_reaction(@repository, @issue_number, reaction, {accept: PREVIEW_HEADERS})
   end
@@ -28,5 +32,17 @@ class OctokitClient
 
   def fetch_from_repo(filepath)
     @octokit.contents(@repository, path: filepath)
+  end
+
+  def error_notification(reaction:, comment:, error: nil)
+    add_reaction(reaction: reaction)
+    add_comment(comment: comment)
+    puts comment
+    unless error.nil?
+      puts '-----------'
+      puts "Exception: #{error.full_message}"
+      puts '-----------'
+    end
+    exit(0)
   end
 end

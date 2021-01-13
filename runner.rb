@@ -37,8 +37,16 @@ module UltimateTicTacToe
     end
 
     def write_game_state
-      puts @game.serialize
       File.write(GAME_DATA_PATH, @game.serialize)
+      `git add #{GAME_DATA_PATH}`
+      `git config --global user.email "github-action-bot@example.com"`
+      `git config --global user.name "GitHub Action Bot"`
+      if system("git commit -m test1") && system('git push')
+        octokit.add_reaction(reaction: 'rocket')
+      else
+        comment = "Oh no! There was a network issue. This is a transient error. Please try again!"
+        octokit.error_notification(reaction: 'confused', comment: comment)
+      end
     end
 
     def raw_game_data
