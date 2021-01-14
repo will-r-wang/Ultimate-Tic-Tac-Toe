@@ -3,6 +3,8 @@ require_relative 'game'
 
 module UltimateTicTacToe
   class Runner
+    class InvalidCommandError < StandardError; end
+
     GAME_DATA_PATH = 'game_data.yml'
 
     def initialize(
@@ -19,15 +21,30 @@ module UltimateTicTacToe
 
     def run
       split_input = @issue_title.split('|')
-      row = split_input[0]
-      col = split_input[1]
+      command = split_input[0]
 
       acknowledge_issue
 
-      @game = Game.load(Base64.decode64(raw_game_data.content))
-      @game.make_move(Integer(row), Integer(col))
+      if command == 'move'
+        row, col = split_input[1], split_input[2]
+        @game = Game.load(Base64.decode64(raw_game_data.content))
+        @game.make_move(Integer(row), Integer(col))
+      elsif command == 'new'
+        @game = Game.new('#' * 81, '#' * 9)
+      else
+        raise InvalidCommandError, "unrecognized command"
+      end
 
       write_game_state
+    rescue InvalidMoveError => error
+      comment = "#{row}|#{col} is an invalid move. Please check the board and try again."
+      octokit.error_notification(reaction: 'confused', comment: comment, error: error)
+    rescue InvalidCommandError => error
+      comment = "#{command} is an invalid command. Please check the board and try again. You should not need to change the issue title"
+      octokit.error_notification(reaction: 'confused', comment: comment, error: error)
+    rescue ArgumentError, TypeError => error
+      comment = "#{row}|#{col} is not an Integer parsable move. Please check the board and try again."
+      octokit.error_notification(reaction: 'confused', comment: comment, error: error)
     end
 
     def acknowledge_issue

@@ -33,12 +33,13 @@ module UltimateTicTacToe
         meta: @meta,
         turn: @turn,
         row_bound: @row_bound,
-        col_bound: @col_bound
+        col_bound: @col_bound,
+        valid_moves: valid_moves
       }.to_yaml
     end
 
     def make_move(row, col)
-      raise InvalidMoveError unless valid_move?(row, col)
+      raise InvalidMoveError, 'move invalid' unless valid_move?(row, col)
       @board[row][col] = @player
       @turn += 1
       row_offset, col_offset = row % 3, col % 3
@@ -51,6 +52,10 @@ module UltimateTicTacToe
         @row_bound, @col_bound = row_offset, col_offset
       end
       return "GAME OVER" if board_complete?(@meta)
+    end
+
+    def valid_moves
+      9.times.collect { |r| 9.times.collect { |c| "#{r}|#{c}" if valid_move?(r,c) } }.flatten.compact.join(",")
     end
 
     def valid_move?(row, col)
