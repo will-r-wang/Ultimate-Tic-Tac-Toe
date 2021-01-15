@@ -40,7 +40,7 @@ module UltimateTicTacToe
         raise InvalidCommandError, "unrecognized command"
       end
 
-      write_game_state
+      write_game_state(command: command)
     rescue InvalidMoveError => error
       comment = "#{row}|#{col} is an invalid move. Please check the board and try again."
       octokit.error_notification(reaction: 'confused', comment: comment, error: error)
@@ -58,7 +58,7 @@ module UltimateTicTacToe
       octokit.close_issue
     end
 
-    def write_game_state
+    def write_game_state(command:)
       File.write(GAME_DATA_PATH, @game.serialize)
       File.write(README_PATH, generate_readme)
 
