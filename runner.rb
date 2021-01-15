@@ -14,12 +14,14 @@ module UltimateTicTacToe
       github_token:,
       issue_number:,
       issue_title:,
-      repository:
+      repository:,
+      user:
     )
       @github_token = github_token
       @repository = repository
       @issue_number = issue_number
       @issue_title = issue_title
+      @user = user
     end
 
     def run
@@ -59,11 +61,17 @@ module UltimateTicTacToe
     def write_game_state
       File.write(GAME_DATA_PATH, @game.serialize)
       File.write(README_PATH, generate_readme)
-      
+
+      message = if command == 'move'
+        "@#{@user} made a move"
+      else
+        "@#{@user} started a new game!"
+      end
+
       `git add #{GAME_DATA_PATH} #{README_PATH}`
       `git config --global user.email "github-action-bot@example.com"`
       `git config --global user.name "GitHub Action Bot"`
-      if system("git commit -m test1") && system('git push')
+      if system("git commit -m '#{message}'") && system('git push')
         octokit.add_reaction(reaction: 'rocket')
       else
         comment = "Oh no! There was a network issue. This is a transient error. Please try again!"
