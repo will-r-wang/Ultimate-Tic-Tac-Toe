@@ -3,7 +3,10 @@ require_relative 'game'
 
 module UltimateTicTacToe
   class Runner
+    class InvalidCommandError < StandardError; end
+
     GAME_DATA_PATH = 'game_data.yml'
+    README_PATH = 'README.md'
 
     def initialize(
       github_token:,
@@ -19,15 +22,30 @@ module UltimateTicTacToe
 
     def run
       split_input = @issue_title.split('|')
-      row = split_input[0]
-      col = split_input[1]
+      command = split_input[0]
 
       acknowledge_issue
 
-      @game = Game.load(Base64.decode64(raw_game_data.content))
-      @game.make_move(Integer(row), Integer(col))
+      if command == 'move'
+        row, col = split_input[1], split_input[2]
+        @game = Game.load(Base64.decode64(raw_game_data.content))
+        @game.make_move(Integer(row), Integer(col))
+      elsif command == 'new'
+        @game = Game.new('#' * 81, '#' * 9)
+      else
+        raise InvalidCommandError, "unrecognized command"
+      end
 
       write_game_state
+    rescue InvalidMoveError => error
+      comment = "#{row}|#{col} is an invalid move. Please check the board and try again."
+      octokit.error_notification(reaction: 'confused', comment: comment, error: error)
+    rescue InvalidCommandError => error
+      comment = "#{command} is an invalid command. Please check the board and try again. You should not need to change the issue title"
+      octokit.error_notification(reaction: 'confused', comment: comment, error: error)
+    rescue ArgumentError, TypeError => error
+      comment = "#{row}|#{col} is not an Integer parsable move. Please check the board and try again."
+      octokit.error_notification(reaction: 'confused', comment: comment, error: error)
     end
 
     def acknowledge_issue
@@ -38,6 +56,7 @@ module UltimateTicTacToe
 
     def write_game_state
       File.write(GAME_DATA_PATH, @game.serialize)
+      File.write(README_PATH, generate_readme)
       `git add #{GAME_DATA_PATH}`
       `git config --global user.email "github-action-bot@example.com"`
       `git config --global user.name "GitHub Action Bot"`
@@ -47,6 +66,10 @@ module UltimateTicTacToe
         comment = "Oh no! There was a network issue. This is a transient error. Please try again!"
         octokit.error_notification(reaction: 'confused', comment: comment)
       end
+    end
+
+    def generate_readme
+      MarkdownGenerator.new(game: game).readme
     end
 
     def raw_game_data
