@@ -2,7 +2,7 @@ require_relative 'game'
 
 class MarkdownGenerator
 
-  IMAGE_BASE_URL = 'https://raw.githubusercontent.com/will-r-wang/Ultimate-Tic-Tac-Toe/master/images'
+  IMAGE_BASE_URL = 'https://github.com/sayohnahilan/Ultimate-Tic-Tac-Toe/blob/main/images'
 
   O_IMAGE = "![](#{IMAGE_BASE_URL}/o.png)"
   X_IMAGE = "![](#{IMAGE_BASE_URL}/x.png)"
