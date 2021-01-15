@@ -30,7 +30,8 @@ class MarkdownGenerator
 
     8.downto(0) do |row|
       format = (0...8).map do |col|
-        puts game.board
+        puts game.board[0]
+        puts row, col
         if game.board[(8-row) * 9 + col] == 'X'
           puts 'found an X'
           X_IMAGE
