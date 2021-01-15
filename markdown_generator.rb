@@ -25,23 +25,20 @@ class MarkdownGenerator
   attr_reader :game
 
   def generate_game_board
-    headers = '0|1|2|3|4|5|6|7|8'
-    game_board = "|#{headers}|\n| - | - | - | - | - | - | - | - | - |\n"
+    headers = ' |0|1|2|3|4|5|6|7|8'
+    game_board = "|#{headers}|\n| - | - | - | - | - | - | - | - | - | - |\n"
 
     8.downto(0) do |row|
       format = (0...8).map do |col|
-        puts game.board[8 - row][col]
         if game.board[8 - row][col] == 'X'
-          puts 'found an X'
           X_IMAGE
         elsif game.board[8 - row][col] == 'O'
-          puts 'found an O'
           O_IMAGE
         else
           EMPTY_IMAGE
         end
       end
-      game_board.concat("|#{format.join('|')}|\n")
+      game_board.concat("|#{row}|#{format.join('|')}|\n")
     end
     game_board
   end
