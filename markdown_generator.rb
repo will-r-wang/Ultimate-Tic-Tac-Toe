@@ -22,16 +22,19 @@ class MarkdownGenerator
     markdown
   end
 
+  attr_reader :game
+
   def generate_game_board
     headers = '0|1|2|3|4|5|6|7|8'
     game_board = "|#{headers}|\n| - | - | - | - | - | - | - | - | - |\n"
 
     8.downto(0) do |row|
-      format = (0...7).map do |col|
-        offset = row + 7 * col
-        if @game.board[(8-row) * 9 + col] == 'X'
+      format = (0...8).map do |col|
+        if game.board[(8-row) * 9 + col] == 'X'
+          puts 'found an X'
           X_IMAGE
-        elsif @game.board[(8-row) * 9 + col] == 'O'
+        elsif game.board[(8-row) * 9 + col] == 'O'
+          puts 'found an O'
           O_IMAGE
         else
           EMPTY_IMAGE
