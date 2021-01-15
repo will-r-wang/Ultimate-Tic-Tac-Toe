@@ -23,7 +23,22 @@ class MarkdownGenerator
   end
 
   def generate_game_board
-    valid_moves = @game.valid_moves
-  end
+    headers = '0|1|2|3|4|5|6|7|8'
+    game_board = "|#{headers}|\n| - | - | - | - | - | - | - | - | - |\n"
 
+    8.downto(0) do |row|
+      format = (0...7).map do |col|
+        offset = row + 7 * col
+        if @game.board[row * 9 + col] == 'X'
+          X_IMAGE
+        elsif @game.board[row * 9 + col] == 'O'
+          O_IMAGE
+        else
+          EMPTY_IMAGE
+        end
+      end
+      game_board.concat("|#{format.join('|')}|\n")
+    end
+    game_board
+  end
 end

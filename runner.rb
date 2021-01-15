@@ -59,7 +59,8 @@ module UltimateTicTacToe
     def write_game_state
       File.write(GAME_DATA_PATH, @game.serialize)
       File.write(README_PATH, generate_readme)
-      `git add #{GAME_DATA_PATH}`
+      
+      `git add #{GAME_DATA_PATH} #{README_PATH}`
       `git config --global user.email "github-action-bot@example.com"`
       `git config --global user.name "GitHub Action Bot"`
       if system("git commit -m test1") && system('git push')
