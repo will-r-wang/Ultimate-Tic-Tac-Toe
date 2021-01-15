@@ -1,5 +1,6 @@
 require_relative 'octokit_client'
 require_relative 'game'
+require_relative 'markdown_generator'
 
 module UltimateTicTacToe
   class Runner
