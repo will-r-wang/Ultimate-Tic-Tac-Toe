@@ -32,7 +32,6 @@ class MarkdownGenerator
 
     0.upto(8) do |row|
       format = (0...9).map do |col|
-
         if game.valid_moves.include?("#{row}|#{col}")
           "[move](#{ISSUE_BASE_URL}?title=move%7C#{row}%7C#{col}&#{ISSUE_BODY})"
         elsif game.board[row][col] == 'X'

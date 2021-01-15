@@ -9,14 +9,13 @@ module UltimateTicTacToe
     ROWS, COLS = 9, 9
     WIN_COMBINATIONS = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [6,4,2]]
 
-    def initialize(board:, meta:, turn: 0, row_bound: -1, col_bound: -1, valid_moves: nil)
+    def initialize(board:, meta:, turn: 0, row_bound: -1, col_bound: -1)
       @board = board.split("").each_slice(9).to_a
       @meta = meta
       @turn = turn
       @player = (turn % 2 == 0) ? 'X' : 'O'
       @row_bound = row_bound
       @col_bound = col_bound
-      @valid_moves = valid_moves
     end
 
     def self.load(data)
