@@ -6,6 +6,7 @@ module UltimateTicTacToe
     class InvalidCommandError < StandardError; end
 
     GAME_DATA_PATH = 'game_data.yml'
+    README_PATH = 'README.md'
 
     def initialize(
       github_token:,
@@ -55,6 +56,7 @@ module UltimateTicTacToe
 
     def write_game_state
       File.write(GAME_DATA_PATH, @game.serialize)
+      File.write(README_PATH, generate_readme)
       `git add #{GAME_DATA_PATH}`
       `git config --global user.email "github-action-bot@example.com"`
       `git config --global user.name "GitHub Action Bot"`
@@ -64,6 +66,10 @@ module UltimateTicTacToe
         comment = "Oh no! There was a network issue. This is a transient error. Please try again!"
         octokit.error_notification(reaction: 'confused', comment: comment)
       end
+    end
+
+    def generate_readme
+      MarkdownGenerator.new(game: game).readme
     end
 
     def raw_game_data
