@@ -3,6 +3,7 @@ require_relative 'game'
 
 module UltimateTicTacToe
   class Runner
+    class InvalidMoveError < StandardError; end
     class InvalidCommandError < StandardError; end
 
     GAME_DATA_PATH = 'game_data.yml'
