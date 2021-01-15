@@ -36,7 +36,6 @@ module UltimateTicTacToe
         turn: @turn,
         row_bound: @row_bound,
         col_bound: @col_bound,
-        valid_moves: valid_moves
       }.to_yaml
     end
 
