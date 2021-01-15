@@ -71,7 +71,7 @@ module UltimateTicTacToe
     end
 
     def generate_readme
-      MarkdownGenerator.new(game: game).readme
+      MarkdownGenerator.new(game: @game).readme
     end
 
     def raw_game_data
