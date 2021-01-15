@@ -23,7 +23,7 @@ class MarkdownGenerator
   end
 
   def generate_game_board
-    valid_moves = game.valid_moves
+    valid_moves = @game.valid_moves
   end
 
 end
