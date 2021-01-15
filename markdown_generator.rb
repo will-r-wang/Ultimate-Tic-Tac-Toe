@@ -28,11 +28,11 @@ class MarkdownGenerator
     headers = ' |0|1|2|3|4|5|6|7|8'
     game_board = "|#{headers}|\n| - | - | - | - | - | - | - | - | - | - |\n"
 
-    8.downto(0) do |row|
+    0.upto(8) do |row|
       format = (0...8).map do |col|
-        if game.board[8 - row][col] == 'X'
+        if game.board[row][col] == 'X'
           X_IMAGE
-        elsif game.board[8 - row][col] == 'O'
+        elsif game.board[row][col] == 'O'
           O_IMAGE
         else
           EMPTY_IMAGE
