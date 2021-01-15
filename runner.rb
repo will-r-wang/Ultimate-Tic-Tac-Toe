@@ -35,7 +35,7 @@ module UltimateTicTacToe
         @game = Game.load(Base64.decode64(raw_game_data.content))
         @game.make_move(Integer(row), Integer(col))
       elsif command == 'new'
-        @game = Game.new('#' * 81, '#' * 9)
+        @game = Game.new(board: '#' * 81, meta: '#' * 9)
       else
         raise InvalidCommandError, "unrecognized command"
       end
