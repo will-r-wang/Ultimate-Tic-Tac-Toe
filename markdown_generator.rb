@@ -29,9 +29,9 @@ class MarkdownGenerator
     8.downto(0) do |row|
       format = (0...7).map do |col|
         offset = row + 7 * col
-        if @game.board[row * 9 + col] == 'X'
+        if @game.instance_variable_get(:@board)[row * 9 + col] == 'X'
           X_IMAGE
-        elsif @game.board[row * 9 + col] == 'O'
+        elsif @game.instance_variable_get(:@board)[row * 9 + col] == 'O'
           O_IMAGE
         else
           EMPTY_IMAGE
