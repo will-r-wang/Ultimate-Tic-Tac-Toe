@@ -29,11 +29,12 @@ class MarkdownGenerator
     game_board = "|#{headers}|\n| - | - | - | - | - | - | - | - | - |\n"
 
     8.downto(0) do |row|
-      8.downto(0) do |col|
-        if game.board[8 - row][8 - col] == 'X'
+      format = (0...8).map do |col|
+        puts game.board[8 - row][col]
+        if game.board[8 - row][col] == 'X'
           puts 'found an X'
           X_IMAGE
-        elsif game.board[8 - row][8 - col] == 'O'
+        elsif game.board[8 - row][col] == 'O'
           puts 'found an O'
           O_IMAGE
         else
