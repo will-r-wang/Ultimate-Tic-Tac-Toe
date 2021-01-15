@@ -20,7 +20,7 @@ class MarkdownGenerator
     HTML
 
     markdown.concat(generate_game_board)
-    markdown.concat("[Community Connect Four Game!](https://github.com/JonathanGin52/JonathanGin52/)")
+    markdown.concat("\nInspired by: [Community Connect Four Game!](https://github.com/JonathanGin52/JonathanGin52/)")
     markdown
   end
 
