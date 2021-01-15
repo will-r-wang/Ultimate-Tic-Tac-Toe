@@ -16,10 +16,11 @@ class MarkdownGenerator
   def readme
     markdown = <<~HTML
         ## :game_die: Welcome to our community Ultimate Tic Tac Toe game! 👋
-        Everyone is welcome to participate! To make a move, submit an issue with format "move|{row}|{col}".
+        Everyone is welcome to participate! To make a move, click on the board where valid.
     HTML
 
     markdown.concat(generate_game_board)
+    markdown.concat("[Community Connect Four Game!](https://github.com/JonathanGin52/JonathanGin52/)")
     markdown
   end
 
@@ -33,7 +34,7 @@ class MarkdownGenerator
       format = (0...9).map do |col|
 
         if game.valid_moves.include?("#{row}|#{col}")
-          "![move](#{ISSUE_BASE_URL}?title=move%7C#{row}%7C#{col}&#{ISSUE_BODY})"
+          "[move](#{ISSUE_BASE_URL}?title=move%7C#{row}%7C#{col}&#{ISSUE_BODY})"
         elsif game.board[row][col] == 'X'
           X_IMAGE
         elsif game.board[row][col] == 'O'
