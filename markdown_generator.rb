@@ -21,7 +21,7 @@ class MarkdownGenerator
 
         Click on a 👾 and press submit issue to make a move.  
     HTML
-    markdown.concat("\n\nNext to move: #{@game.turn.even? ? '❌' : '⭕️'}'s turn.")
+    markdown.concat("\n\nNext to move: #{@game.turn.even? ? '❌' : '⭕️'}'s turn.\n")
     markdown.concat(generate_game_board)
     markdown.concat("\nInspired by: [Community Connect Four Game!](https://github.com/JonathanGin52/JonathanGin52/) - [@JonathanGin52](https://github.com/jonathangin52)")
     markdown
@@ -34,11 +34,11 @@ class MarkdownGenerator
     0.upto(8) do |row|
       format = (0...9).map do |col|
         if @game.valid_moves.include?("#{row}|#{col}")
-          "[move](#{ISSUE_BASE_URL}?title=move%7C#{row}%7C#{col}&#{ISSUE_BODY})"
+          "[👾](#{ISSUE_BASE_URL}?title=move%7C#{row}%7C#{col}&#{ISSUE_BODY})"
         elsif @game.board[row][col] == 'X'
-          "❌"
+          '❌'
         elsif @game.board[row][col] == 'O'
-          "⭕️"
+          '⭕️'
         else
           ' '
         end
