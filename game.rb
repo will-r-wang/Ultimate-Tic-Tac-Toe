@@ -4,6 +4,8 @@ module UltimateTicTacToe
   class Game
     class InvalidMoveError < StandardError; end
 
+    attr_reader :board
+
     ROWS, COLS = 9, 9
     WIN_COMBINATIONS = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [6,4,2]]
 
@@ -33,12 +35,12 @@ module UltimateTicTacToe
         meta: @meta,
         turn: @turn,
         row_bound: @row_bound,
-        col_bound: @col_bound
+        col_bound: @col_bound,
       }.to_yaml
     end
 
     def make_move(row, col)
-      raise InvalidMoveError unless valid_move?(row, col)
+      raise InvalidMoveError, 'move invalid' unless valid_move?(row, col)
       @board[row][col] = @player
       @turn += 1
       row_offset, col_offset = row % 3, col % 3
@@ -50,7 +52,10 @@ module UltimateTicTacToe
       else
         @row_bound, @col_bound = row_offset, col_offset
       end
-      return "GAME OVER" if board_complete?(@meta)
+    end
+
+    def valid_moves
+      9.times.collect { |r| 9.times.collect { |c| "#{r}|#{c}" if valid_move?(r,c) } }.flatten.compact.join(",")
     end
 
     def valid_move?(row, col)
@@ -60,6 +65,10 @@ module UltimateTicTacToe
       return false unless row.between?(@row_bound * 3, @row_bound * 3 + 2) and
                           col.between?(@col_bound * 3, @col_bound * 3 + 2)
       true
+    end
+
+    def game_over?
+      return board_complete?(@meta)
     end
   end
 end
