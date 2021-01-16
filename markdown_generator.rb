@@ -36,9 +36,9 @@ class MarkdownGenerator
         if @game.valid_moves.include?("#{row}|#{col}")
           "[move](#{ISSUE_BASE_URL}?title=move%7C#{row}%7C#{col}&#{ISSUE_BODY})"
         elsif @game.board[row][col] == 'X'
-          ❌
+          "❌"
         elsif @game.board[row][col] == 'O'
-          ⭕️
+          "⭕️"
         else
           ' '
         end
