@@ -52,7 +52,6 @@ module UltimateTicTacToe
       else
         @row_bound, @col_bound = row_offset, col_offset
       end
-      return "GAME OVER" if board_complete?(@meta)
     end
 
     def valid_moves
@@ -66,6 +65,10 @@ module UltimateTicTacToe
       return false unless row.between?(@row_bound * 3, @row_bound * 3 + 2) and
                           col.between?(@col_bound * 3, @col_bound * 3 + 2)
       true
+    end
+
+    def game_over?
+      return board_complete?(@meta)
     end
   end
 end

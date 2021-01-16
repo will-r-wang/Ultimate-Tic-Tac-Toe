@@ -34,11 +34,12 @@ module UltimateTicTacToe
         row, col = split_input[1], split_input[2]
         @game = Game.load(Base64.decode64(raw_game_data.content))
         @game.make_move(Integer(row), Integer(col))
-      elsif command == 'new'
+      elsif command == 'new' || @game.game_over?
         @game = Game.new(board: '#' * 81, meta: '#' * 9)
       else
         raise InvalidCommandError, "unrecognized command"
       end
+
 
       write_game_state(command: command)
     rescue InvalidMoveError => error
