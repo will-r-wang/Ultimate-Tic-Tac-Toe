@@ -34,7 +34,8 @@ module UltimateTicTacToe
         row, col = split_input[1], split_input[2]
         @game = Game.load(Base64.decode64(raw_game_data.content))
         @game.make_move(Integer(row), Integer(col))
-      elsif command == 'new' || @game.game_over?
+        handle_game_over if @game.game_over?
+      elsif command == 'new'
         @game = Game.new(board: '#' * 81, meta: '#' * 9)
       else
         raise InvalidCommandError, "unrecognized command"
@@ -53,6 +54,10 @@ module UltimateTicTacToe
       octokit.error_notification(reaction: 'confused', comment: comment, error: error)
     end
 
+    def handle_game_over
+      @game = Game.new(board: '#' * 81, meta: '#' * 9)
+    end
+
     def acknowledge_issue
       octokit.add_label(label: 'ultimate-tic-tac-toe')
       octokit.add_reaction(reaction: 'eyes')
@@ -64,7 +69,7 @@ module UltimateTicTacToe
       File.write(README_PATH, generate_readme)
 
       message = if command == 'move'
-        "@#{@user} made a move"
+        "@#{@user} made a move!"
       else
         "@#{@user} started a new game!"
       end
