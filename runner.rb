@@ -10,13 +10,7 @@ module UltimateTicTacToe
     GAME_DATA_PATH = 'game_data.yml'
     README_PATH = 'README.md'
 
-    def initialize(
-      github_token:,
-      issue_number:,
-      issue_title:,
-      repository:,
-      user:
-    )
+    def initialize(github_token:, issue_number:, issue_title:, repository:, user:)
       @github_token = github_token
       @repository = repository
       @issue_number = issue_number
@@ -40,7 +34,6 @@ module UltimateTicTacToe
       else
         raise InvalidCommandError, "unrecognized command"
       end
-
 
       write_game_state(command: command)
     rescue InvalidMoveError => error
