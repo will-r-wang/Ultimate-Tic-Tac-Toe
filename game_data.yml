@@ -1,6 +1,6 @@
 ---
-:board: "##########O#########O###X#####XXX######XXX######XXX#########X###O################"
-:meta: "####X####"
-:turn: 9
-:row_bound: 0
-:col_bound: 0
+:board: OOO######OOO######OOO###X#####XXX######XXX######XXX#########X###O################
+:meta: O###X####
+:turn: 10
+:row_bound: -1
+:col_bound: -1
